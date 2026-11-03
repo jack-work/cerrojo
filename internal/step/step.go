@@ -27,11 +27,16 @@ func Parse(s string) (Step, error) {
 
 func ParseList(s string) ([]Step, error) {
 	var steps []Step
+	seen := map[Step]bool{}
 	for _, f := range strings.Split(s, ",") {
 		st, err := Parse(f)
 		if err != nil {
 			return nil, err
 		}
+		if seen[st] {
+			return nil, fmt.Errorf("step %s appears twice", st)
+		}
+		seen[st] = true
 		steps = append(steps, st)
 	}
 	return steps, nil

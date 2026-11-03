@@ -40,3 +40,9 @@ func TestParseRefusesNonsense(t *testing.T) {
 		}
 	}
 }
+
+func TestParseListRefusesARepeatedStep(t *testing.T) {
+	if _, err := ParseList("5m,1h,300s"); err == nil {
+		t.Fatal("5m and 300s are the same step, and cycling would visit it twice")
+	}
+}

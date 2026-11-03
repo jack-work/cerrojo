@@ -78,6 +78,9 @@ func run(ctx context.Context, args []string) error {
 	if err != nil {
 		return err
 	}
+	if *grace < 0 {
+		return fmt.Errorf("grace %s is negative", *grace)
+	}
 	return daemon.Run(ctx, daemon.Config{
 		Steps:           parsed,
 		Grace:           *grace,
